@@ -1,13 +1,40 @@
 # Techplement
-This project demonstrates the evolution of a web application from a monolithic architecture to a microservices architecture using WordPress as the application layer and MySQL as the database. The infrastructure is created and managed using Terraform, while Nginx is used as the web server.
+This project deploys WordPress and MySQL in monolithic and microservices architectures. In monolithic, both run on one public EC2 instance. In microservices, WordPress is on a public EC2 and MySQL on a private EC2. Built with Terraform, it uses modular code, secure networking, and demonstrates scalability and architecture transitions.
 
 
+# WEEK ONE TASK
+TASK : Deploy application in monolithic and microservices architecture.
+
+# FOLDER STRUCTURE FOR TASK
+I have created two directories under TECHPLEMENT/week1-tasks.
+
+Directory one /IaC :
+In this directory i have all codes related to my infracture in modular format.
+
+Directory two /Scripts : 
+In this directory i have all script related to project which will be required to setup infrastructure so it can run smoothly
+
+# HOW TO MAKE INFRASTRUCTURE UP AND RUNNING
+To make infrastrastructure up and running first navigate to folder week1-tasks/IaC/i - monolithic/Root and week1-tasks/IaC/i - microservice/Root respectively, it depends on which infrastructure needs to run first.
+
+Once in /Root Directory enter the following command in sequnce in terminal
+- terraform init
+- terraform plan
+- terraform apply
+
+Once everything is up and running you will get ec2 ip as a output and .pem file will be in root folder, ssh in ec2 using following command through local terminal, pem file will be present in /Root directory
+- sudo ssh -i "nameofpemfile.pem" ubuntu@publicip
+
+# WHAT TO DO AFTER INFRASTRUCTURE IS UP AND RUNNING
+Once everything is up and running and ssh is done in respective ec2 do the necessary setup depends on infrastructure, supporting scripts are in /Scripts directory and additional useful commands is in current README.md
+
+
+# FEW USEFUL COMMANDS
 # DEBUG SSH 
 sudo ssh -v -i "mono_Private_pem_Key.pem" ubuntu@65.2.29.50
 
 # SSH 
 sudo ssh -i "mono_Private_pem_Key.pem" ubuntu@65.2.29.50
-
 
 # CREATE Mysql User
 # Create a New MySQL User
@@ -18,59 +45,14 @@ GRANT ALL PRIVILEGES ON wordpress_db.* TO 'Admin'@'%';
 FLUSH PRIVILEGES;
 EXIT;
 
-
 # Allow MySQL to listen on all interfaces
 sudo sed -i 's/bind-address.*/bind-address = 10.0.1.208/' /etc/mysql/mysql.conf.d/mysqld.cnf
 
 # Restart MySQL Service
 sudo systemctl restart mysql
 
-
-# Nginx Script
-server {
-    listen 80;
-    server_name 65.2.29.50;
-
-    root /var/www/html;
-    index index.php index.html index.htm;
-
-    location / {
-        try_files $uri $uri/ =404;
-    }
-
-    location ~ .php$ {
-        include snippets/fastcgi-php.conf;
-        fastcgi_pass unix:/var/run/php/php8.1-fpm.sock;
-        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-        include fastcgi_params;
-    }
-}
-
 # Check Installation
 /var/log/cloud-init-output.log
 
-# BAstian SSH
-ssh ec2-user@privateip
 
 
-# SSh Agent Forwarding
-
-# check if agent is running
-eval 'ssh-agent'  
-
-# Add Key pair to ssh agent | Add without -K
-ssh-add -K ./filename.pem
-
-# change permission 
-chmod 400 filename.pem
- # then add again 
-
- # NOW IT IS ADDED TO SSH AGENT
-
- # how to use forwarding
-
- # connect to public instance
- ssh -A -i filename.pem ec2-user@ip
-
- # Connect to Private Instance
- ssh ec2-user@privateip 
