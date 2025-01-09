@@ -1,6 +1,6 @@
 server {
     listen 80;
-    server_name 65.2.29.50;
+    server_name 43.204.108.205;
 
     root /var/www/html;
     index index.php index.html index.htm;
@@ -11,8 +11,13 @@ server {
 
     location ~ .php$ {
         include snippets/fastcgi-php.conf;
-        fastcgi_pass unix:/var/run/php/php8.1-fpm.sock;
+        fastcgi_pass unix:/var/run/php/php8.3-fpm.sock;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
         include fastcgi_params;
+
+        # Increase timeouts
+        fastcgi_read_timeout 300;
+        fastcgi_connect_timeout 300;
+        fastcgi_send_timeout 300;
     }
 }

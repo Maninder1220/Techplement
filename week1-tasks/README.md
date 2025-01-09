@@ -46,7 +46,7 @@ FLUSH PRIVILEGES;
 EXIT;
 
 # Allow MySQL to listen on all interfaces
-sudo sed -i 's/bind-address.*/bind-address = 10.0.1.208/' /etc/mysql/mysql.conf.d/mysqld.cnf
+make changes here  /etc/mysql/mysql.conf.d/mysqld.cnf
 
 # Restart MySQL Service
 sudo systemctl restart mysql
