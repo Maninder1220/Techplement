@@ -10,7 +10,7 @@ define('DB_USER', 'Admin');
 define('DB_PASSWORD', 'Admin@123');
 
 /** MySQL hostname - Use the private IP of your MySQL EC2 instance */
-define('DB_HOST', '10.0.1.208'); // Replace with the private IP of your MySQL instance
+define('DB_HOST', '3.109.155.37'); // Replace with the private IP of your MySQL instance
 
 /** Database Charset to use in creating database tables. */
 define('DB_CHARSET', 'utf8mb4');

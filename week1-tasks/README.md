@@ -55,4 +55,32 @@ sudo systemctl restart mysql
 /var/log/cloud-init-output.log
 
 
+# AWS PROVIDER CODE IN providers.tf
+
+terraform {
+  required_providers {
+    aws = {
+        version = "~>5.0"
+        source = "hashicorp/aws"
+    }
+  }
+}
+
+provider "aws" {
+  region = "ap-south-1"      # Mumbai
+  # profile = "Devops-User"
+}
+
+
+# AWS terraform.tfvar file content
+vpc_cider_block = "10.0.0.0/16"
+private_subnet = "10.0.1.0/24"
+public_subnet = "10.0.3.0/24"
+
+
+public_destination_cider = "0.0.0.0/0"
+private_destination_cider = "0.0.0.0/0"
+
+region = "ap-south-1"
+
 
